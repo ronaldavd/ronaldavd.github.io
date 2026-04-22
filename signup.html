@@ -1,0 +1,79 @@
+<!doctype html>
+<html class="no-js" lang="ro">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AVD - SignUp</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="AVD.png">
+
+</head>
+
+<body>
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+          <img src="AVD.png" alt="MR Logo" class="brand-logo">
+        </a>
+      </div>
+
+      <nav class="nav-links">
+        <a class="btn ghost" href="index.html">Home</a>
+        <a class="btn ghost" href="contact.html">Contact</a>
+        <a class="btn primary" href="signup.html">Sign up</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Creează-ți un cont</h1>
+      <p class="subtitle">Completează formularul de mai jos pentru a te înregistra</p>
+    </section>
+
+    <section class="form-section">
+      <div class="form-card">
+        <form id="signup-form" action="#" method="POST">
+          <div class="form-group">
+            <label for="nume">Nume complet</label>
+            <input type="text" id="nume" name="nume" placeholder="ex: Mihai Popescu" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="ex: mihai@email.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="parola">Parolă</label>
+            <input type="password" id="parola" name="parola" placeholder="Minim 6 caractere" minlength="6" required>
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-parola">Confirmă parola</label>
+            <input type="password" id="confirm-parola" name="confirm-parola" placeholder="Repetă parola" required>
+          </div>
+
+          <button type="submit" class="btn primary full-width">Înregistrează-te</button>
+        </form>
+
+        <p class="form-footer">
+          Ai deja cont? <a href="/login">Autentifică-te</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>ronalodAVD© 2026</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+
+</html>

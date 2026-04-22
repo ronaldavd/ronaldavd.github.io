@@ -1,0 +1,589 @@
+<!doctype html>
+<html class="no-js" lang="ro">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Random Database Generator</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="AVD.png">
+  <style>
+    .generator-hero {
+      padding-top: 40px;
+      padding-bottom: 20px;
+      margin-bottom: 10px;
+      text-align: center;
+      animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+
+    .generator-container {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 24px;
+      margin-top: 40px;
+      align-items: start;
+      animation: fadeUp 0.5s 0.1s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+
+    .generator-panel {
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 20px;
+      padding: 30px;
+      backdrop-filter: blur(8px);
+    }
+
+    .generator-panel h2 {
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+
+    .form-group-checkbox {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group-checkbox:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(124, 58, 237, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .form-group-checkbox label.field-label {
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--text-secondary);
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-primary);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px var(--accent-primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+      background-color: white;
+    }
+
+    .form-group-number {
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+
+    .form-group-number label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .form-group-number input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-group-number input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .results-panel {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      max-height: 850px;
+    }
+
+    .table-container {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      margin-top: 10px;
+    }
+
+    .table-container::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    .table-container::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 4px;
+    }
+    .table-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+    .table-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .results-table th,
+    .results-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.95rem;
+    }
+
+    .results-table th {
+      color: var(--text-primary);
+      font-weight: 600;
+      background: rgba(30, 30, 35, 0.95);
+      backdrop-filter: blur(10px);
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+
+    .results-table tbody tr {
+      transition: all 0.2s ease;
+    }
+
+    .results-table tbody tr:hover {
+      background: rgba(124, 58, 237, 0.08);
+    }
+
+    .results-table td {
+      color: var(--text-secondary);
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+
+    .results-table tbody tr:hover td {
+      color: var(--text-primary);
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--muted);
+      padding: 60px 20px;
+      font-size: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .empty-state-icon {
+      font-size: 3rem;
+      opacity: 0.5;
+    }
+
+    .actions-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .actions-row h2 {
+      margin-bottom: 0;
+    }
+
+    .export-btns {
+      display: flex;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .export-btns.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .btn-export {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-export:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .generator-container {
+        grid-template-columns: 1fr;
+      }
+
+      .generator-panel {
+        padding: 16px;
+      }
+
+      .results-table th,
+      .results-table td {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none; height: 20px">
+          <img src="AVD.png" alt="AVD Logo" class="brand-logo">
+        </a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Meniu navigare">☰</button>
+      <nav class="nav-links" id="navMenu">
+        <a class="btn ghost" href="index.html">Home</a>
+        <a class="btn ghost" href="contact.html">Contact</a>
+        <a class="btn primary" href="signup.html">Sign up</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero generator-hero">
+      <h1>Random Database Generator</h1>
+      <p class="subtitle">Generează rapid <strong>date de test</strong>, selectează câmpurile dorite și numărul de
+        înregistrări.</p>
+    </section>
+
+    <div class="generator-container">
+      <div class="generator-panel">
+        <h2>Setări Generare</h2>
+
+        <div class="form-group-checkbox">
+          <label for="chk-nume" class="field-label">Nume</label>
+          <label class="switch"><input type="checkbox" id="chk-nume" checked><span class="slider"></span></label>
+        </div>
+        <div class="form-group-checkbox">
+          <label for="chk-prenume" class="field-label">Prenume</label>
+          <label class="switch"><input type="checkbox" id="chk-prenume" checked><span class="slider"></span></label>
+        </div>
+        <div class="form-group-checkbox">
+          <label for="chk-telefon" class="field-label">Număr Telefon</label>
+          <label class="switch"><input type="checkbox" id="chk-telefon" checked><span class="slider"></span></label>
+        </div>
+        <div class="form-group-checkbox">
+          <label for="chk-adresa" class="field-label">Adresă</label>
+          <label class="switch"><input type="checkbox" id="chk-adresa" checked><span class="slider"></span></label>
+        </div>
+        <div class="form-group-checkbox">
+          <label for="chk-loc-munca" class="field-label">Loc de muncă</label>
+          <label class="switch"><input type="checkbox" id="chk-loc-munca" checked><span class="slider"></span></label>
+        </div>
+        <div class="form-group-checkbox">
+          <label for="chk-companie" class="field-label">Companie</label>
+          <label class="switch"><input type="checkbox" id="chk-companie" checked><span class="slider"></span></label>
+        </div>
+        <div class="form-group-checkbox">
+          <label for="chk-oras" class="field-label">Oraș</label>
+          <label class="switch"><input type="checkbox" id="chk-oras" checked><span class="slider"></span></label>
+        </div>
+        <div class="form-group-checkbox">
+          <label for="chk-tara" class="field-label">Țară</label>
+          <label class="switch"><input type="checkbox" id="chk-tara"><span class="slider"></span></label>
+        </div>
+        <div class="form-group-checkbox">
+          <label for="chk-zip" class="field-label">Cod Poștal</label>
+          <label class="switch"><input type="checkbox" id="chk-zip"><span class="slider"></span></label>
+        </div>
+        <div class="form-group-checkbox">
+          <label for="chk-email" class="field-label">Email</label>
+          <label class="switch"><input type="checkbox" id="chk-email" checked><span class="slider"></span></label>
+        </div>
+        <div class="form-group-checkbox">
+          <label for="chk-data-inscris" class="field-label">Data înscrierii</label>
+          <label class="switch"><input type="checkbox" id="chk-data-inscris"><span class="slider"></span></label>
+        </div>
+
+        <div class="form-group-number">
+          <label for="num-records">Număr de înregistrări (Max 1000):</label>
+          <input type="number" id="num-records" min="1" max="1000" value="10">
+        </div>
+
+        <button class="btn full-width"
+          style="background: linear-gradient(135deg, #7c3aed, #6d28d9); color: white; border: none; font-weight: bold; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3); cursor: pointer;"
+          id="btn-generate">
+          Generează Date
+        </button>
+      </div>
+
+      <div class="generator-panel results-panel">
+        <div class="actions-row">
+          <h2>Rezultate</h2>
+          <div class="export-btns" id="export-btns">
+            <button class="btn-export" id="btn-copy-json">📋 JSON</button>
+            <button class="btn-export" id="btn-copy-csv">📋 CSV</button>
+          </div>
+        </div>
+        <div id="results-container" class="table-container">
+          <div class="empty-state">
+            <div class="empty-state-icon">✨</div>
+            <div>Apasă pe "Generează Date" pentru a afișa rezultatele.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-legal">&copy; 2026 Ronaldo AVD. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btnGenerate = document.getElementById('btn-generate');
+      const resultsContainer = document.getElementById('results-container');
+
+      const firstNames = ["Andrei", "Alexandru", "Mihai", "Ionuț", "Gabriel", "Maria", "Elena", "Andreea", "Ioana", "Diana", "Florin", "Vasile", "Cristina", "Ana", "Ștefan", "Laura", "George", "Cătălin"];
+      const lastNames = ["Popescu", "Radu", "Ionescu", "Dumitrescu", "Stan", "Gheorghe", "Matei", "Ciobanu", "Marin", "Toma", "Rusu", "Badea", "Munteanu", "Ilie", "Stoica", "Moldovan"];
+      const cities = ["București", "Cluj-Napoca", "Timișoara", "Iași", "Constanța", "Craiova", "Brașov", "Galați", "Ploiești", "Oradea", "Brăila", "Arad", "Pitești", "Sibiu", "Bacău"];
+      const streets = ["Str. Mare", "Al. Trandafirilor", "B-dul Unirii", "Str. Primăverii", "Calea Victoriei", "Str. Libertății", "Str. Mihai Eminescu", "B-dul Republicii"];
+      const jobs = ["Programator", "Medic", "Profesor", "Inginer", "Contabil", "Mecanic", "Avocat", "Designer", "Manager", "Antreprenor", "Asistent", "Arhitect", "Analist Date", "Bucătar"];
+      const countries = ["România", "Moldova", "Germania", "Spania", "Italia", "Marea Britanie", "Franța", "SUA", "Austria", "Olanda"];
+      const companies = ["TechCorp", "SoftVision", "Global Solutions", "Innovate IT", "CodeFactory", "SmartWeb", "DataSystems", "NextGen", "ProDev", "AlphaCorp", "BitDef"];
+      const emailDomains = ["gmail.com", "yahoo.com", "outlook.com", "company.ro", "mail.ro"];
+
+      function getRandom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      function getRandomPhone() {
+        let phone = "07";
+        for (let i = 0; i < 8; i++) {
+          phone += Math.floor(Math.random() * 10);
+        }
+        return phone;
+      }
+
+      function getRandomDate(startYear, endYear) {
+        const date = new Date(startYear + Math.random() * (endYear - startYear), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
+        return date.toISOString().split('T')[0];
+      }
+
+      let currentData = [];
+
+      btnGenerate.addEventListener('click', () => {
+        const useNume = document.getElementById('chk-nume').checked;
+        const usePrenume = document.getElementById('chk-prenume').checked;
+        const useTelefon = document.getElementById('chk-telefon').checked;
+        const useEmail = document.getElementById('chk-email').checked;
+        const useAdresa = document.getElementById('chk-adresa').checked;
+        const useOras = document.getElementById('chk-oras').checked;
+        const useTara = document.getElementById('chk-tara').checked;
+        const useZip = document.getElementById('chk-zip').checked;
+        const useCompanie = document.getElementById('chk-companie').checked;
+        const useLocMunca = document.getElementById('chk-loc-munca').checked;
+        const useDataInscrierii = document.getElementById('chk-data-inscris').checked;
+
+        let count = parseInt(document.getElementById('num-records').value);
+        if (isNaN(count) || count < 1) count = 1;
+        if (count > 1000) count = 1000;
+
+        if (!useNume && !usePrenume && !useTelefon && !useAdresa && !useLocMunca && !useDataInscrierii && !useEmail && !useOras && !useTara && !useZip && !useCompanie) {
+          resultsContainer.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div><div>Selectează cel puțin un câmp pentru a genera.</div></div>';
+          document.getElementById('export-btns').classList.remove('visible');
+          return;
+        }
+
+        currentData = [];
+
+        let html = '<table class="results-table"><thead><tr>';
+        html += '<th>#</th>';
+        if (useNume) html += '<th>Nume</th>';
+        if (usePrenume) html += '<th>Prenume</th>';
+        if (useEmail) html += '<th>Email</th>';
+        if (useTelefon) html += '<th>Nr. Telefon</th>';
+        if (useTara) html += '<th>Țară</th>';
+        if (useOras) html += '<th>Oraș</th>';
+        if (useAdresa) html += '<th>Adresă</th>';
+        if (useZip) html += '<th>Cod Poștal</th>';
+        if (useCompanie) html += '<th>Companie</th>';
+        if (useLocMunca) html += '<th>Loc de muncă</th>';
+        if (useDataInscrierii) html += '<th>Data înscrierii</th>';
+        html += '</tr></thead><tbody>';
+
+        for (let i = 1; i <= count; i++) {
+          const rowData = {};
+          html += '<tr>';
+          html += `<td>${i}</td>`;
+          const currentLastName = getRandom(lastNames);
+          const currentFirstName = getRandom(firstNames);
+
+          if (useNume) {
+             html += `<td>${currentLastName}</td>`;
+             rowData['Nume'] = currentLastName;
+          }
+          if (usePrenume) {
+             html += `<td>${currentFirstName}</td>`;
+             rowData['Prenume'] = currentFirstName;
+          }
+          if (useEmail) {
+            const emailStr = `${currentFirstName.toLowerCase()}.${currentLastName.toLowerCase()}@${getRandom(emailDomains)}`.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "");
+            html += `<td>${emailStr}</td>`;
+            rowData['Email'] = emailStr;
+          }
+          if (useTelefon) {
+             const tel = getRandomPhone();
+             html += `<td>${tel}</td>`;
+             rowData['Telefon'] = tel;
+          }
+          if (useTara) {
+             const tara = getRandom(countries);
+             html += `<td>${tara}</td>`;
+             rowData['Țară'] = tara;
+          }
+          if (useOras) {
+             const oras = getRandom(cities);
+             html += `<td>${oras}</td>`;
+             rowData['Oraș'] = oras;
+          }
+          if (useAdresa) {
+             const adresa = `${getRandom(streets)} Nr. ${Math.floor(Math.random() * 150) + 1}`;
+             html += `<td>${adresa}</td>`;
+             rowData['Adresă'] = adresa;
+          }
+          if (useZip) {
+             const zip = Math.floor(100000 + Math.random() * 900000);
+             html += `<td>${zip}</td>`;
+             rowData['Cod Poștal'] = zip;
+          }
+          if (useCompanie) {
+             const comp = getRandom(companies);
+             html += `<td>${comp}</td>`;
+             rowData['Companie'] = comp;
+          }
+          if (useLocMunca) {
+             const loc = getRandom(jobs);
+             html += `<td>${loc}</td>`;
+             rowData['Loc de muncă'] = loc;
+          }
+          if (useDataInscrierii) {
+             const dataIns = getRandomDate(2020, 2026);
+             html += `<td>${dataIns}</td>`;
+             rowData['Data înscrierii'] = dataIns;
+          }
+          html += '</tr>';
+          currentData.push(rowData);
+        }
+
+        html += '</tbody></table>';
+        resultsContainer.innerHTML = html;
+        document.getElementById('export-btns').classList.add('visible');
+      });
+
+      document.getElementById('btn-copy-json').addEventListener('click', function() {
+         if (currentData.length === 0) return;
+         navigator.clipboard.writeText(JSON.stringify(currentData, null, 2)).then(() => {
+            const originalText = this.innerHTML;
+            this.innerHTML = '✅ Copiat!';
+            setTimeout(() => { this.innerHTML = originalText; }, 2000);
+         });
+      });
+
+      document.getElementById('btn-copy-csv').addEventListener('click', function() {
+         if (currentData.length === 0) return;
+         const keys = Object.keys(currentData[0]);
+         const csv = [
+            keys.join(','),
+            ...currentData.map(row => keys.map(k => `"${row[k]}"`).join(','))
+         ].join('\n');
+         
+         navigator.clipboard.writeText(csv).then(() => {
+            const originalText = this.innerHTML;
+            this.innerHTML = '✅ Copiat!';
+            setTimeout(() => { this.innerHTML = originalText; }, 2000);
+         });
+      });
+    });
+  </script>
+</body>
+
+</html>
