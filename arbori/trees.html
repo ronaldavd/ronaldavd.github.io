@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AVD - Arbori</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../AVD.png">
+  <style>
+    .tool-layout {
+      display: grid;
+      gap: 24px;
+      padding: 40px 0 80px;
+    }
+
+    .panel {
+      background: rgba(15, 17, 21, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(20px);
+    }
+
+    .panel h2 {
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .field-group label {
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    .field-group textarea,
+    .field-group select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      color: #f8fafc;
+      padding: 18px;
+      font-size: 0.98rem;
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .field-group select {
+      min-height: auto;
+      padding: 14px 16px;
+    }
+
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .btn-tool {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #f8fafc;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      min-width: 150px;
+    }
+
+    .btn-tool.primary {
+      background: linear-gradient(135deg, #8b5cf6, #10b981);
+      color: white;
+    }
+
+    .btn-tool.danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    .btn-tool:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .results-panel {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 22px;
+      padding: 24px;
+    }
+
+    .canvas-wrapper {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 16px;
+    }
+
+    .canvas-wrapper canvas {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+      background: #020204;
+    }
+
+    .message {
+      color: #f8fafc;
+      background: rgba(248, 113, 113, 0.12);
+      border: 1px solid rgba(248, 113, 113, 0.25);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .page-hero {
+      margin-top: 20px;
+      padding-bottom: 14px;
+    }
+  </style>
+</head>
+<body>
+    <header class="nav">
+      <div class="container nav-inner">
+        <div class="brand">
+          <a href="../index.html" class="brand-link">
+            <img src="../AVD.png" alt="AVD Logo" class="brand-logo">
+          </a>
+        </div>
+
+        <button class="hamburger" id="hamburger" aria-label="Meniu navigare">☰</button>
+
+        <nav class="nav-links" id="navMenu">
+          <a class="btn ghost" href="../index.html">Home</a>
+          <a class="btn ghost" href="../contact.html">Contact</a>
+          <a class="btn primary" href="../signup.html">Sign up</a>
+          <a class="btn ghost" href="graphs.html">Grafuri</a>
+          <a class="btn secondary active" href="trees.html">Arbori</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <span class="hero-eyebrow">GraphTree Pro</span>
+        <h1>Creează și analizează arbori</h1>
+        <p class="subtitle main-subtitle">Construiește arbori, vizualizează traversările și analizează structura, în același stil modern ca site-ul principal.</p>
+      </section>
+
+      <div class="tool-layout">
+        <div class="panel">
+          <h2><i class="fas fa-cogs"></i> Configurare Arbore</h2>
+          <div class="field-group">
+            <label for="method"><i class="fas fa-sliders-h"></i> Metoda de introducere:</label>
+            <select id="method" onchange="updateTreeInputArea()">
+              <option value="direct">Structură Directă</option>
+              <option value="inorder_preorder">Inordine + Preordine</option>
+              <option value="inorder_postorder">Inordine + Postordine</option>
+            </select>
+          </div>
+
+          <p id="description" class="subtitle" style="color: #cbd5e1; padding: 16px; background: rgba(255,255,255,0.06); border-radius: 16px;">
+            <i class="fas fa-info-circle"></i> Introduceți arborele astfel: <strong>rădăcină: copil1, copil2; copil1: copil3, copil4;</strong>
+          </p>
+
+          <div id="inputArea">
+            <textarea id="treeInput" placeholder="Ex: A: B, C; B: D, E; C: F, G">A: B, C; B: D, E; C: F, G</textarea>
+          </div>
+
+          <div id="message" class="message" style="display:none;"></div>
+
+          <div class="actions-row">
+            <button class="btn-tool primary" onclick="createTree()"><i class="fas fa-play"></i> Creează Arborele</button>
+            <button class="btn-tool" onclick="analyzeTre()"><i class="fas fa-chart-line"></i> Analizează</button>
+            <button class="btn-tool" onclick="exportCanvas('treeCanvas')"><i class="fas fa-download"></i> Export</button>
+            <button class="btn-tool danger" onclick="clearCanvas('treeCanvas')"><i class="fas fa-trash"></i> Șterge</button>
+          </div>
+        </div>
+
+        <div id="treeStats" class="results-panel" style="display:none;">
+          <h3><i class="fas fa-info-circle"></i> Statistici Arbore</h3>
+          <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 16px;">
+            <div><strong>Noduri:</strong> <span id="treeNodeCount">0</span></div>
+            <div><strong>Înălțime:</strong> <span id="treeHeight">0</span></div>
+            <div><strong>Frunze:</strong> <span id="leafCount">0</span></div>
+            <div><strong>Arbore balansat:</strong> <span id="isBalanced">-</span></div>
+          </div>
+        </div>
+
+        <div id="traversals" class="results-panel" style="display:none;">
+          <h3><i class="fas fa-route"></i> Traversări Arbore</h3>
+          <p><strong>SRD (Preorder):</strong> <span id="srd"></span></p>
+          <p><strong>RSD (Inorder):</strong> <span id="rsd"></span></p>
+          <p><strong>RDS (Postorder):</strong> <span id="rds"></span></p>
+          <p><strong>Nivel:</strong> <span id="levelOrder"></span></p>
+        </div>
+
+        <div id="treeArea" class="canvas-wrapper">
+          <canvas id="treeCanvas" width="900" height="600"></canvas>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Instrumente</h4>
+                <ul>
+                    <li><a href="graphs.html">Grafuri</a></li>
+                    <li><a href="trees.html">Arbori</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Informatii</h4>
+                <ul>
+                    <li><a href="Index.HTML">Acasă</a></li>
+                    <li><a href="#" onclick="alert('Ajutor: Selectează o metodă, completează datele și apasă Creează!')">Ajutor</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Social</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 GraphTree Pro © Ronaldo Avădănii - Vizualizare și Analiză de Structuri de Date | <a href="mailto:ronaldoavadanii29@gmail.com">Contact</a></p>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script src="JavaScripi.js"></script>
+</body>
+</html>

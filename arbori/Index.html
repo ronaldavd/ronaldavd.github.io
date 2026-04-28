@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Avansat de Grafuri și Arbori</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-network-wired"></i>
+                <span>GraphTree Pro</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Portofoliu</a></li>
+                <li><a href="Index.html" class="active">Acasă</a></li>
+                <li><a href="graphs.html">Grafuri</a></li>
+                <li><a href="trees.html">Arbori</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button id="themeToggle" class="theme-btn" title="Comută tema"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="title-main">GraphTree Pro</h1>
+            <p class="subtitle">Platform Interactivă de Vizualizare și Analiză a Structurilor de Date</p>
+            <p class="description">Creați, vizualizați și analizați grafuri și arbori cu algoritmi avansați, traversări
+                și statistici în timp real.</p>
+            <div class="cta-buttons">
+                <button onclick="scrollToSection('features')" class="btn btn-primary">
+                    <i class="fas fa-arrow-down"></i> Explorează
+                </button>
+                <button id="navDocs" class="btn btn-secondary">
+                    <i class="fas fa-book"></i> Documentație
+                </button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <svg viewBox="0 0 200 200" class="hero-svg">
+                <circle cx="50" cy="50" r="8" fill="#667eea" />
+                <circle cx="150" cy="50" r="8" fill="#764ba2" />
+                <circle cx="100" cy="150" r="8" fill="#f093fb" />
+                <line x1="50" y1="50" x2="150" y2="50" stroke="#667eea" stroke-width="2" />
+                <line x1="50" y1="50" x2="100" y2="150" stroke="#764ba2" stroke-width="2" />
+                <line x1="150" y1="50" x2="100" y2="150" stroke="#f093fb" stroke-width="2" />
+            </svg>
+        </div>
+    </header>
+
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2>Caracteristici Principale</h2>
+            <div class="features-grid">
+                <div class="feature-card" style="--i:1">
+                    <i class="fas fa-share-alt"></i>
+                    <h3>Grafuri Avansate</h3>
+                    <p>Creați grafuri neorientate cu 4 metode diferite. Analizați cu algoritmi DFS, BFS, drum minim, și
+                        mai mult.</p>
+                </div>
+                <div class="feature-card" style="--i:2">
+                    <i class="fas fa-tree"></i>
+                    <h3>Arbori Complet Funcționali</h3>
+                    <p>Vizualizați arbori, traversări complete (Preorder, Inorder, Postorder) și statistici detailate.
+                    </p>
+                </div>
+                <div class="feature-card" style="--i:3">
+                    <i class="fas fa-magic"></i>
+                    <h3>Vizualizare Interactivă</h3>
+                    <p>Animații fluidă, layout automat, tema întunecată și ușor de utilizat interfață.</p>
+                </div>
+                <div class="feature-card" style="--i:4">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Algoritmi și Statistici</h3>
+                    <p>Executați algoritmi pas cu pas și vizualizați proprietăți precum conectivitate și cicli.</p>
+                </div>
+                <div class="feature-card" style="--i:5">
+                    <i class="fas fa-download"></i>
+                    <h3>Export și Salvare</h3>
+                    <p>Exportați grafurile ca imagini PNG, salvați datele și partajați rezultatele.</p>
+                </div>
+                <div class="feature-card" style="--i:6">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Mod Educativ</h3>
+                    <p>Tutoriale incluse, exemple pre-construite și ghid complet de utilizare.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tools" class="tools-section">
+        <div class="container">
+            <h2>Instrumente Disponibile</h2>
+            <div class="tools-grid">
+                <div class="tool-card" onclick="window.location.href='graphs.html'">
+                    <div class="tool-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3>Creator de Grafuri</h3>
+                    <p>Grafuri neorientate cu 4 metode de reprezentare</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Reprezentare directă (V,E)</li>
+                        <li><i class="fas fa-check"></i> Matrice de adiacență</li>
+                        <li><i class="fas fa-check"></i> Listă de adiacență</li>
+                        <li><i class="fas fa-check"></i> Matrice de incidență</li>
+                        <li><i class="fas fa-check"></i> Algoritmi: DFS, BFS, drum minim</li>
+                    </ul>
+                    <button class="btn btn-action">Acceseaza <i class="fas fa-arrow-right"></i></button>
+                </div>
+
+                <div class="tool-card" onclick="window.location.href='trees.html'">
+                    <div class="tool-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3>Creator de Arbori</h3>
+                    <p>Arbori cu traversări și analiză detaliată</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Construire structură directă</li>
+                        <li><i class="fas fa-check"></i> Reconstructie din Inordine + Preordine</li>
+                        <li><i class="fas fa-check"></i> Reconstructie din Inordine + Postordine</li>
+                        <li><i class="fas fa-check"></i> Traversări complete</li>
+                        <li><i class="fas fa-check"></i> Statistici și proprietăți</li>
+                    </ul>
+                    <button class="btn btn-action">Acceseaza <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2>Despre Platforma</h2>
+            <div class="about-content">
+                <p>GraphTree Pro este o platformă educativă și interactivă pentru studiul și vizualizarea structurilor
+                    de date - grafuri și arbori. Indiferent dacă ești student, profesor sau cercetător, această
+                    platformă te ajută să înțelegi și să explori structurile de date complexe.</p>
+                <div class="about-features">
+                    <div class="about-item">
+                        <h4><i class="fas fa-lightbulb"></i> Ușor de Utilizat</h4>
+                        <p>Interfață intuitivă și instrucțiuni clare pentru toți utilizatorii.</p>
+                    </div>
+                    <div class="about-item">
+                        <h4><i class="fas fa-bolt"></i> Performant</h4>
+                        <p>Prelucrarea rapidă a grafurilor mari și vizualizare netedă.</p>
+                    </div>
+                    <div class="about-item">
+                        <h4><i class="fas fa-shield-alt"></i> Sigur</h4>
+                        <p>Toate calculele se fac local în browserul tău - fără a trimite date.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Contactează-ne</h2>
+            <div class="contact-content">
+                <p>Ai întrebări, sugestii sau feedback? Contactează-ne:</p>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> Email: <a
+                            href="mailto:ronaldoavadanii29@gmail.com">ronaldoavadanii29@gmail.com</a></p>
+                    <p><i class="fas fa-github"></i> GitHub: <a href="http://github.com/ronaldavd"
+                            target="_blank">github.com/ronaldavd</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Despre</h4>
+                <ul>
+                    <li><a href="#about">Despre Platforma</a></li>
+                    <li><a href="#features">Caracteristici</a></li>
+                    <li><a href="#tools">Instrumente</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resurse</h4>
+                <ul>
+                    <li><a href="#" onclick="alert('Documentație în curs')">Documentație</a></li>
+                    <li><a href="#" onclick="alert('Tutorial în curs')">Tutorial Video</a></li>
+                    <li><a href="#" onclick="alert('Exemple în curs')">Exemple</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#" onclick="alert('Termeni de utilizare')">Termeni și Condiții</a></li>
+                    <li><a href="#" onclick="alert('Politica de confidențialitate')">Politică Confidențialitate</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Social</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 GraphTree Pro. Toate drepturile rezervate © Ronaldo Avădănii | Creat cu <i
+                    class="fas fa-heart"></i> pentru educație</p>
+        </div>
+    </footer>
+
+    <script src="JavaScripi.js"></script>
+    <script>
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            element?.scrollIntoView({ behavior: 'smooth' });
+        }
+        document.getElementById('navDocs')?.addEventListener('click', () => {
+            alert('📚 Documentație completă:\n\n1. GRAFURI:\n- Formatul Direct: V={1,2,3}, E={{1,2},{2,3}}\n- Matrice: 0 1 1 / 1 0 1 / 1 1 0\n- Lista: 1: 2,3 / 2: 1 / 3: 1\n\n2. ARBORI:\n- Format: A: B,C; B: D,E\n- Traversări: Preorder, Inorder, Postorder\n\n3. ALGORITMI:\n- DFS: Adâncime\n- BFS: Lățime\n- Drum minim: Dijkstra');
+        });
+    </script>
+</body>
+
+</html>
